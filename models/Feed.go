@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Feed struct {
-	Id          string `json:"id"`
+	Id          int64  `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	CreatedAt   time.Time
