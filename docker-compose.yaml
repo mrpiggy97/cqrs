@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  postgres:
+    build: "./database"
+    environment:
+      POSTGRES_USER: POSTGRES
+      POSTGRES_PASSWORD: cqrsproject10
+      POSTGRES_DB: cqrsdb
+    restart: always
+  nats:
+    image: "nats-streaming:0.9.2"
+    restart: always
