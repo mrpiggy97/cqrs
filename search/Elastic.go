@@ -83,7 +83,7 @@ func (elasticRepo *ElasticSearchRepository) SearchFeed(cxt context.Context, quer
 	}
 
 	var eRes map[string]interface{}
-	err = json.NewDecoder(res.Body).Decode(eRes)
+	err = json.NewDecoder(res.Body).Decode(&eRes)
 	if err != nil {
 		return nil, err
 	}
