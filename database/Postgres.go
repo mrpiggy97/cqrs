@@ -46,7 +46,7 @@ func (repo *PostgresRepository) ListFeeds(cxt context.Context) ([]*models.Feed, 
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var id *int64 = new(int64)
+		var id *string = new(string)
 		var title *string = new(string)
 		var description *string = new(string)
 		var createdAt *time.Time = new(time.Time)

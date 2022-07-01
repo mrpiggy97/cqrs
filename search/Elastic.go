@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/mrpiggy97/cqrs/models"
@@ -36,11 +35,10 @@ func (elasticRepo *ElasticSearchRepository) Close() {
 
 func (elasticRepo *ElasticSearchRepository) IndexFeed(cxt context.Context, feed *models.Feed) error {
 	body, _ := json.Marshal(feed)
-	var idAsString string = fmt.Sprintf("%d", feed.Id)
 	_, err := elasticRepo.client.Index(
 		"feeds",
 		bytes.NewReader(body),
-		elasticRepo.client.Index.WithDocumentID(idAsString),
+		elasticRepo.client.Index.WithDocumentID(feed.Id),
 		elasticRepo.client.Index.WithContext(cxt),
 		elasticRepo.client.Index.WithRefresh("wait_for"),
 	)

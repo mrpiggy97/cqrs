@@ -7,7 +7,7 @@ type Message interface {
 }
 
 type CreatedFeedMessage struct {
-	Id          int64     `json:"id"`
+	Id          string    `json:"id"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
