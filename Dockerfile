@@ -26,6 +26,10 @@ COPY feed-service feed-service
 
 COPY models models
 
+COPY query-service query-service
+
+COPY pusher pusher
+
 RUN go install ./...
 
 FROM alpine:3.11
@@ -33,3 +37,4 @@ FROM alpine:3.11
 WORKDIR /usr/bin
 
 COPY --from=builder /go/bin .
+

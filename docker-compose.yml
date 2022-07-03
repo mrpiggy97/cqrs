@@ -28,3 +28,28 @@ services:
       - POSTGRES_PASSWORD: cqrsproject10
       - POSTGRES_DB: cqrsdb
       - NATS_ADDRESS: "nats:4222"
+  query:
+    build: "."
+    command: "query-service"
+    depends_on:
+      - "nats"
+      - "postgres"
+      - "elasticSearch"
+    ports:
+      - "8080"
+    environment:
+      - POSTGRES_USER: POSTGRES
+      - POSTGRES_PASSWORD: cqrsproject10
+      - POSTGRES_DB: cqrsdb
+      - NATS_ADDRESS: "nats:4222"
+      - ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
+  pusher:
+    build: "."
+    ports:
+      - "8080"
+    command: "pusher"
+    depends_on:
+      - "nats"
+    environment:
+      - "NATS_ADDRESS": "nats4222"
+  
