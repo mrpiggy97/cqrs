@@ -52,4 +52,12 @@ services:
       - "nats"
     environment:
       - "NATS_ADDRESS": "nats4222"
+  nginx:
+    build: "./nginx"
+    ports:
+      - "8080:80"
+    depends_on:
+      - feed
+      - query
+      - pusher
   
