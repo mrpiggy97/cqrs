@@ -1,12 +1,12 @@
-ARG go_version=1.16.6
+ARG GO_VERSION="1.16.6"
 
-FROM go:${go_version}-alpine AS builder
+FROM golang:${GO_VERSION}-alpine AS builder
 
 RUN go env -w GOPROXY=direct
 
 RUN apk add --no-cache git
 
-RUN apk --no-cache add --ca-certificates && update-ca-certificates
+RUN apk --no-cache add ca-certificates && update-ca-certificates
 
 WORKDIR /src
 
@@ -28,7 +28,7 @@ COPY models models
 
 COPY query-service query-service
 
-COPY pusher pusher
+COPY pusher-service pusher-service
 
 RUN go install ./...
 
