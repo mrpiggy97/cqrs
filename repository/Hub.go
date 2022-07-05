@@ -2,12 +2,12 @@ package repository
 
 type IHub interface {
 	OnConnect(client IClient)
-	OnDesconnect(client IClient)
+	OnDisconnect(client IClient)
 	GetNumberOfActiveClients() int
 	RegisterClient(client IClient)
 	DeRegisterClient(client IClient)
 	Run()
-	BroadCast()
+	BroadCast(message interface{}, ignoreClient string)
 }
 
 var AppHub IHub
