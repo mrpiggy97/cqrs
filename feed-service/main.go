@@ -14,7 +14,7 @@ import (
 
 func newRouter() *mux.Router {
 	var newRouter *mux.Router = mux.NewRouter()
-	newRouter.HandleFunc("/", CreatedFeedHandler).Methods(http.MethodGet)
+	newRouter.HandleFunc("/feeds", CreatedFeedHandler).Methods(http.MethodPost)
 	return newRouter
 }
 
