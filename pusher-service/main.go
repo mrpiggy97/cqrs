@@ -22,6 +22,7 @@ func main() {
 	}
 
 	var hub *Hub = NewHub()
+	repository.SetAppHub(hub)
 	nats, err := events.NewNats(fmt.Sprintf("nats://%s", newConfig.NatsAddress))
 	if err != nil {
 		log.Fatalf(err.Error())

@@ -63,7 +63,7 @@ func (hub *Hub) RegisterClient(client repository.IClient) {
 	hub.Register <- client
 }
 
-func (hub *Hub) DeregisterClient(client repository.IClient) {
+func (hub *Hub) DeRegisterClient(client repository.IClient) {
 	hub.Unregister <- client
 }
 
