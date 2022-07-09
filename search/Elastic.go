@@ -48,7 +48,7 @@ func (elasticRepo *ElasticSearchRepository) IndexFeed(cxt context.Context, feed 
 func (elasticRepo *ElasticSearchRepository) SearchFeed(cxt context.Context, query string) ([]models.Feed, error) {
 	var bufferer *bytes.Buffer = &bytes.Buffer{}
 	var searchQuery map[string]interface{} = make(map[string]interface{})
-	searchQuery[query] = map[string]interface{}{
+	searchQuery["query"] = map[string]interface{}{
 		"multi_match": map[string]interface{}{
 			"query":            query,
 			"fields":           []string{"title", "description"},
