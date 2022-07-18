@@ -62,7 +62,7 @@ func main() {
 	events.SetEventStore(nats)
 	defer events.Close()
 
-	err = nats.OnCreateFeed(onCreatedFeed)
+	err = nats.StartSubscribing(indexIncomingFeed)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
