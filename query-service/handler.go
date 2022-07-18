@@ -1,26 +1,27 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 
-	"github.com/mrpiggy97/cqrs/events"
 	"github.com/mrpiggy97/cqrs/models"
 	"github.com/mrpiggy97/cqrs/repository"
 	"github.com/mrpiggy97/cqrs/search"
+	"github.com/nats-io/nats.go"
 )
 
-func onCreatedFeed(message events.CreatedFeedMessage) {
-	var newFeed models.Feed = models.Feed{
-		Id:          message.Id,
-		Title:       message.Title,
-		Description: message.Description,
-		CreatedAt:   message.CreatedAt,
-	}
+// creates a new models.Feed object from message.Data
+// and then indexes that model
+func indexIncomingFeed(message *nats.Msg) {
+	var newFeed *models.Feed = new(models.Feed)
+	var bufferer *bytes.Buffer = new(bytes.Buffer)
+	bufferer.Write(message.Data)
+	json.NewDecoder(bufferer).Decode(newFeed)
 
-	var err error = search.IndexFeed(context.Background(), &newFeed)
+	var err error = search.IndexFeed(context.Background(), newFeed)
 	if err != nil {
 		log.Printf("failed to index feed: %s", err.Error())
 	}
