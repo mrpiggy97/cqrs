@@ -29,9 +29,7 @@ func main() {
 	}
 	events.SetEventStore(nats)
 	defer events.Close()
-	err = nats.OnCreateFeed(func(m events.CreatedFeedMessage) {
-		hub.BroadCast(newCreatedFeedMessage(m.Id, m.Title, m.Description, m.CreatedAt), "")
-	})
+	err = nats.StartSubscribing(NatsMessageHandler)
 
 	if err != nil {
 		log.Fatalf(err.Error())
