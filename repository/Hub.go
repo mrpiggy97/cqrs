@@ -31,3 +31,7 @@ func DeRegisterClient(client IClient) {
 func GetNumberOfActiveClients() int {
 	return AppHub.GetNumberOfActiveClients()
 }
+
+func BroadCast(message interface{}, ignoreClient string) {
+	AppHub.BroadCast(message, ignoreClient)
+}
