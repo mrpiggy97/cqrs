@@ -67,32 +67,8 @@ func (nats *NatsEventStore) PublishCreatedFeed(cxt context.Context, feed *models
 	return nats.Connection.Publish(message.Type(), data)
 }
 
-func (nats *NatsEventStore) OnCreateFeed(callback func(CreatedFeedMessage)) (err error) {
+func (nats *NatsEventStore) StartSubscribing(messageHandler natsio.MsgHandler) (err error) {
 	var message *CreatedFeedMessage = new(CreatedFeedMessage)
-	nats.FeedCreatedSub, err = nats.Connection.Subscribe(message.Type(), func(msg *natsio.Msg) {
-		nats.decodeMessage(msg.Data, message)
-		callback(*message)
-	})
+	nats.FeedCreatedSub, err = nats.Connection.Subscribe(message.Type(), messageHandler)
 	return
-}
-
-func (nats *NatsEventStore) SubscribeCreatedFeed(cxt context.Context) (<-chan CreatedFeedMessage, error) {
-	var message *CreatedFeedMessage = new(CreatedFeedMessage)
-	nats.FeedCreatedChan = make(chan CreatedFeedMessage, 64)
-	var natsioChannel chan *natsio.Msg = make(chan *natsio.Msg, 64)
-	var err error
-	nats.FeedCreatedSub, err = nats.Connection.ChanSubscribe(message.Type(), natsioChannel)
-	if err != nil {
-		return nil, err
-	}
-	go func() {
-		for {
-			select {
-			case m := <-natsioChannel:
-				nats.decodeMessage(m.Data, message)
-				nats.FeedCreatedChan <- *message
-			}
-		}
-	}()
-	return (<-chan CreatedFeedMessage)(nats.FeedCreatedChan), nil
 }
